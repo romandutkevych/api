@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Форма входа HTML5 CSS3</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-lg-6 col-lg-offset-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Авторизация на сайте</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-offset-3 login-box">
+                            <form role="form">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                    <input type="text" class="form-control" id="email" placeholder="Имя пользователя" required autofocus />
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                                    <input type="password" class="form-control" id="password" placeholder="Ваш пароль" required />
+                                </div>
+                                <p>
+                                У вас нет аккаунта? <a href="#">Регистрация</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-offset-5">
+                            <button type="button" class="btn btn-labeled btn-success enter">
+                                <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Войти</button>
+                            <button type="button" class="btn btn-labeled btn-danger">
+                                <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Выход</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    function LogUsers(email) {
+        $.ajax({
+            url: "/api/users/log/"+email,
+            type: "GET",
+            async: false,
+            contentType: "application/json",
+            success: function (user) {
+                if(user) {
+                    var password = document.getElementById("password").value;
+                    if(user.password == password){
+                        alert("Все ок");
+                        document.location.href='table.html'
+                    }else{
+                        alert("Не вырний пароль");
+                    }
+                }else{
+                    alert("Користувача не знайдено");
+                    reset();
+                }
+             }
+        })
+    }
+
+    $("body").on("click", ".enter", function () {
+        var email = document.getElementById("email").value;
+            LogUsers(email);
+    })
+
+</script>
+</body>
+</html>
